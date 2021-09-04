@@ -1,0 +1,58 @@
+- name: config
+  hosts: all
+  tasks:
+    - name: upgrade system
+      become: yes
+      community.general.pacman:
+        update_cache: yes
+        upgrade: yes
+
+    - name: install packages
+      become: yes
+      community.general.pacman:
+        name:
+          - keepassxc
+          - neovim
+          - python-pynvim
+          - redshift
+          - fish
+          - bat
+          - starship
+          - exa
+          - fd
+          - ripgrep
+          - powerline
+          - powerline-fonts
+          - firefox-developer-edition
+          - xcape
+          - caprine
+          - shutter
+          - xfce5-clipman-plugin
+          - fzf
+          - obs-studio
+        state: latest
+
+    - name: install packages with paru
+      pacman:
+        name:
+          - onedriver
+          - bluemail
+          - whatsapp-for-linux
+          - signal-desktop-beta
+          - netflix-git
+          - nordvpn-bin
+          - notion-app
+          - ripgrep-all
+        state: latest
+        executable: paru
+        force: yes
+
+    - name: enable nordvpn user
+      shell: usermod -aG nordvpn $USER
+
+    - name: enable + start nordvpn service
+      service:
+        name: nordvpnd.service
+        enabled: yes
+        state: started
+

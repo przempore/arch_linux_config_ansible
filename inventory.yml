@@ -1,0 +1,7 @@
+arcos:
+  hosts:
+    arco:
+      ansible_host: 192.168.56.101
+  vars:
+    ansible_python_interpreter: "/usr/bin/python3"
+
