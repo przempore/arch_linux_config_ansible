@@ -30,6 +30,8 @@
           - xfce5-clipman-plugin
           - fzf
           - obs-studio
+          - zathura
+          - zathura-pdf-mupdf
         state: latest
 
     - name: install packages with paru
