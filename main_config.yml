@@ -26,3 +26,10 @@
     - name: recompile xmonad
       shell: xmonad --recompile
 
+    - name: add 'screen_setup.sh' to 'Xsetup'
+      become: yes
+      lineinfile:
+        path: /usr/share/sddm/scripts/Xsetup
+        state: present
+        line: "/home/{{ exec_username }}/.xmonad/scripts/screen_setup.sh"
+
