@@ -32,6 +32,8 @@
           - obs-studio
           - zathura
           - zathura-pdf-mupdf
+          - stow
+          - zsh
         state: latest
 
     - name: install packages with paru
