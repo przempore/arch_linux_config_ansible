@@ -11,7 +11,7 @@
     - name: download dotfiles
       git:
         repo: 'https://github.com/przempore/.dotfiles.git'
-        dest: "/home/{{ ansible_user }}/.dotfiles"
+        dest: "/home/{{ exec_username }}/.dotfiles"
 
     - name: run stow on .dotfiles
       shell: |
