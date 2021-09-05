@@ -27,42 +27,56 @@
           - xcape
           - caprine
           - shutter
-          - xfce5-clipman-plugin
+          - xfce4-clipman-plugin
           - fzf
           - obs-studio
           - zathura
           - zathura-pdf-mupdf
           - stow
           - zsh
+          - dust
         state: latest
 
-    - name: install packages with paru
-      pacman:
-        name:
-          - onedriver
-          - bluemail
-          - whatsapp-for-linux
-          - signal-desktop-beta
-          - netflix-git
-          - nordvpn-bin
-          - notion-app
-          - ripgrep-all
-        state: latest
-        executable: paru
-        force: yes
-
-    - name: enable nordvpn user
-      shell: usermod -aG nordvpn $USER
-
-    - name: enable + start nordvpn service
-      service:
-        name: nordvpnd.service
-        enabled: yes
-        state: started
+          # fixme!
+          #     - name: create cache dir for yay
+          #       become: yes
+          #       shell: mkdir -p /var/cache/yay
+          # 
+          #     - name: install packages with yay
+          #       become: yes
+          #       pacman:
+          #         name:
+          #           - onedriver
+          #           - bluemail
+          #           - whatsapp-for-linux
+          #           - signal-desktop-beta
+          #           - netflix-git
+          #           - nordvpn-bin
+          #           - notion-app
+          #           - ripgrep-all
+          #         state: latest
+          #         executable: yay
+          #         extra_args: --builddir /var/cache/yay
+          #         force: yes
+          # 
+          #     - name: enable nordvpn user
+          #       become: yes
+          #       shell: usermod -aG nordvpn $USER
+          # 
+          #     - name: enable + start nordvpn service
+          #       become: yes
+          #       service:
+          #         name: nordvpnd.service
+          #         enabled: yes
+          #         state: started
 
     - name: install Plug for nvim
       shell:  |
         sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
              https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
 
+    - name: set fish as default shell
+      user: 
+        name: "{{ ansible_user }}"
+        shell: /usr/bin/fish
 

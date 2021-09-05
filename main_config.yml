@@ -2,17 +2,27 @@
   hosts: all
   tasks:
     - name: add github to ssh_known_hosts
+      become: yes
       known_hosts:
         path: /etc/ssh/ssh_known_hosts
         name: github.com
         key: github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
  
-    # before running this copy `id_rsa` key from keepassxc to `~/.ssh` directory
     - name: download dotfiles
       git:
-        repo: 'git@github.com:przempore/dotfiles.git'
-        dest: Projects/dotfiles
-        key_file: "/home/{{ ansible_user }}/.ssh/id_rsa"
-        recursive: no
+        repo: 'https://github.com/przempore/.dotfiles.git'
+        dest: "/home/{{ ansible_user }}/.dotfiles"
 
-  become: yes
+    - name: run stow on .dotfiles
+      shell: |
+        cd ~/.dotfiles
+        stow --adopt "{{ item }}"
+      with_items:
+        - nvim
+        - tmux
+        - xmonad
+        - fish
+
+    - name: recompile xmonad
+      shell: xmonad --recompile
+
