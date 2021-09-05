@@ -77,6 +77,6 @@
 
     - name: set fish as default shell
       user: 
-        name: "{{ ansible_user }}"
+        name: "{{ exec_username }}"
         shell: /usr/bin/fish
 
