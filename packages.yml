@@ -80,3 +80,8 @@
         name: "{{ exec_username }}"
         shell: /usr/bin/fish
 
+    - name: install npm packages
+      shell: | 
+        npm install --global yarn
+        npm install coc-ccls
+
