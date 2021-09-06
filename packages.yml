@@ -3,16 +3,17 @@
   tasks:
     - name: upgrade system
       become: yes
-      community.general.pacman:
+      pacman:
         update_cache: yes
         upgrade: yes
 
     - name: install packages
       become: yes
-      community.general.pacman:
+      pacman:
         name:
           - keepassxc
           - neovim
+          - python3
           - python-pynvim
           - redshift
           - fish
@@ -71,6 +72,7 @@
           #         state: started
 
     - name: set fish as default shell
+      become: yes
       user: 
         name: "{{ exec_username }}"
         shell: /usr/bin/fish
@@ -83,8 +85,15 @@
     - name: install plugins for nvim
       shell: nvim +PlugInstall +qa
 
+    - name: reboot
+      become: yes
+      reboot:
+        reboot_timeout: 3600
+
     - name: install npm packages
       shell: | 
+        cd ~/.config/nvim
         npm install --global yarn
+        npm install coc.vim
         npm install coc-ccls
 

@@ -23,8 +23,16 @@
         - xmonad
         - fish
 
-    - name: recompile xmonad
-      shell: xmonad --recompile
+    - name: revert changes at dotfiles
+      shell: |
+        cd .dotfiles
+        git checkout .
+
+    - name: recompile and restart xmonad
+      shell: |
+        xmonad --recompile 
+        xmonad --restart
+        exit 0
 
     - name: add 'screen_setup.sh' to 'Xsetup'
       become: yes
