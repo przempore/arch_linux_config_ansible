@@ -40,7 +40,6 @@
 
           # fixme!
           #     - name: create cache dir for yay
-          #       become: yes
           #       shell: mkdir -p /var/cache/yay
           # 
           #     - name: install packages with yay
