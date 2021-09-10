@@ -70,22 +70,3 @@
           #         enabled: yes
           #         state: started
 
-    - name: set fish as default shell
-      become: yes
-      user: 
-        name: "{{ exec_username }}"
-        shell: /usr/bin/fish
-
-    - name: install Plug for nvim
-      shell:  |
-        sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
-             https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
-
-    - name: install plugins for nvim
-      shell: |
-        nvim +PlugInstall +qa
-        nvim +CocInstall coc-tabnine +qa
-        nvim +CocInstall coc-python +qa
-        nvim +CocInstall coc-rust-analyzer +qa
-        nvim +CocInstall coc-clangd +qa
-
