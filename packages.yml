@@ -36,6 +36,8 @@
           - stow
           - zsh
           - dust
+          - nodejs
+          - npm
         state: latest
 
           # fixme!
