@@ -22,6 +22,7 @@
         - tmux
         - xmonad
         - fish
+        - alacritty
 
     - name: revert changes at dotfiles
       shell: |
