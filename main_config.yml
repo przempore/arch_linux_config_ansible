@@ -56,6 +56,7 @@
     - name: install plugins for nvim
       shell: |
         nvim +PlugInstall +qa
+        nvim +CocCommand clangd.install +qa
 
     - name: install coc.nvim
       shell: |
