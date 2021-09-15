@@ -38,6 +38,7 @@
           - dust
           - nodejs
           - npm
+          - clang
         state: latest
 
           # fixme!
