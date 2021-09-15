@@ -39,6 +39,8 @@
           - nodejs
           - npm
           - clang
+          - docker
+          - docker-compose
         state: latest
 
           # fixme!
