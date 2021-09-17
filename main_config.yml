@@ -23,6 +23,7 @@
         - xmonad
         - fish
         - alacritty
+        - redshift
 
     - name: revert changes at dotfiles
       shell: |
