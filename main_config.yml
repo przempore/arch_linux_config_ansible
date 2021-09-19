@@ -24,6 +24,7 @@
         - fish
         - alacritty
         - redshift
+        - polybar
 
     - name: revert changes at dotfiles
       shell: |
