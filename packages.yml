@@ -41,6 +41,7 @@
           - clang
           - docker
           - docker-compose
+          - hplip
         state: latest
 
           # fixme!
