@@ -8,10 +8,23 @@
         name: github.com
         key: github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
  
+    - name: check if dotfiles cloned
+      git:
+        repo: 'https://github.com/przempore/.dotfiles.git'
+        dest: "/home/{{ ansible_user }}/.dotfiles"
+        clone: no
+        update: no
+      register: dotfiles_cloned
+
+    - name: show `dotfiles_cloned`
+      debug:
+        var: dotfiles_cloned
+
     - name: download dotfiles
       git:
         repo: 'https://github.com/przempore/.dotfiles.git'
-        dest: "/home/{{ exec_username }}/.dotfiles"
+        dest: "/home/{{ ansible_user }}/.dotfiles"
+      when: dotfiles_cloned['changed'] != false
 
     - name: run stow on .dotfiles
       shell: |
@@ -42,12 +55,12 @@
       lineinfile:
         path: /usr/share/sddm/scripts/Xsetup
         state: present
-        line: "/home/{{ exec_username }}/.xmonad/scripts/screen_setup.sh"
+        line: "/home/{{ ansible_user }}/.xmonad/scripts/screen_setup.sh"
 
     - name: set fish as default shell
       become: yes
       user: 
-        name: "{{ exec_username }}"
+        name: "{{ ansible_user }}"
         shell: /usr/bin/fish
 
     - name: install Plug for nvim
@@ -57,7 +70,7 @@
 
     - name: install plugins for nvim
       shell: |
-        nvim +PlugInstall +qa
+        nvim --headless +PlugInstall +qa
         nvim +CocCommand clangd.install +qa
 
     - name: install coc.nvim

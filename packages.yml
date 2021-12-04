@@ -1,6 +1,7 @@
 - name: config
   hosts: all
   tasks:
+    # if fails run `sudo pacman -S archlinux-keyring`
     - name: upgrade system
       become: yes
       pacman:
@@ -11,6 +12,7 @@
       become: yes
       pacman:
         name:
+          - ansible
           - keepassxc
           - neovim
           - python3
@@ -42,37 +44,66 @@
           - docker
           - docker-compose
           - hplip
+          - aria2
         state: latest
 
-          # fixme!
-          #     - name: create cache dir for yay
-          #       shell: mkdir -p /var/cache/yay
-          # 
-          #     - name: install packages with yay
-          #       become: yes
-          #       pacman:
-          #         name:
-          #           - onedriver
-          #           - bluemail
-          #           - whatsapp-for-linux
-          #           - signal-desktop-beta
-          #           - netflix-git
-          #           - nordvpn-bin
-          #           - notion-app
-          #           - ripgrep-all
-          #         state: latest
-          #         executable: yay
-          #         extra_args: --builddir /var/cache/yay
-          #         force: yes
-          # 
-          #     - name: enable nordvpn user
-          #       become: yes
-          #       shell: usermod -aG nordvpn $USER
-          # 
-          #     - name: enable + start nordvpn service
-          #       become: yes
-          #       service:
-          #         name: nordvpnd.service
-          #         enabled: yes
-          #         state: started
+    - name: Allow the `ansible_user` user to run `sudo pacman` without a password
+      become: yes
+      ansible.builtin.lineinfile:
+        path: /etc/sudoers.d/11-install-aur_builder
+        line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman'
+        create: yes
+        validate: 'visudo -cf %s'
+
+
+    # This task uses the `aur` module's FQCN.
+    - name: Install trizen using makepkg if it isn't installed already
+      kewlfft.aur.aur:
+        name: trizen
+        use: makepkg
+        state: present
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: Install packages from AUR using paru
+      kewlfft.aur.aur:
+        use: paru
+        name:
+          - onedriver
+          - bluemail
+          - whatsapp-for-linux
+            # - signal-desktop-beta
+          - netflix-git
+          - nordvpn-bin
+          - notion-app
+          - ripgrep-all
+          - backblaze-b2
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    # Note: Dependency resolution will still include repository packages.
+    - name: Upgrade the system using yay, only act on AUR packages.
+      kewlfft.aur.aur:
+        upgrade: yes
+        use: yay
+        aur_only: yes
+
+    - name: upgrade the system using Paru
+      kewlfft.aur.aur:
+        upgrade: yes
+        use: paru
+        aur_only: yes
+      become: yes
+      become_user: "{{ ansible_user }}"
+
+    - name: enable nordvpn user
+      become: yes
+      shell: usermod -aG nordvpn $USER
+
+    - name: enable + start nordvpn service
+      become: yes
+      service:
+        name: nordvpnd.service
+        enabled: yes
+        state: started
 
