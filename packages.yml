@@ -78,6 +78,7 @@
           - notion-app
           - ripgrep-all
           - backblaze-b2
+          - drive
       become: yes
       become_user: "{{ ansible_user }}"
 
