@@ -1,11 +1,11 @@
 arcos:
   hosts:
     n53sv:
+      gather_facts: no
       ansible_host: 192.168.178.23
       is_n53sv: true
 
   vars:
-    gather_facts: no
     ansible_user: "przemek"
     ansible_python_interpreter: "/usr/bin/python3"
 

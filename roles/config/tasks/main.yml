@@ -97,6 +97,19 @@
       npm install coc-rust-analyzer --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
       npm install coc-clangd --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
 
+  - name: copy systemd file for kbdrate
+    copy:
+      src: kbdrate.service
+      dest: /etc/systemd/system/
+      mode: 0644
+      
+  - name: enable + start 'kbdrate' via 'systemd'
+    service: 
+      name: kbdrate
+      enabled: yes
+      daemon_reload: yes
+      state: restarted
+
   - name: Reboot
     become: yes
     reboot:

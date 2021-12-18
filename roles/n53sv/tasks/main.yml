@@ -21,6 +21,11 @@
       name: bumblebeed
       enabled: yes
 
+  - name: Set 'IgnoreABI'
+    copy:
+      src: 25-server_flags.conf 
+      dest: /etc/X11/xorg.conf.d/
+
   - name: Reboot
     become: yes
     reboot:
