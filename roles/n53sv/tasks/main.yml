@@ -1,7 +1,6 @@
 - block:
   - name: Install bumblebee
     become_user: "{{ ansible_user }}"
-    become: yes
     kewlfft.aur.aur:
       use: paru
       name:
@@ -12,12 +11,18 @@
         - lib32-nvidia-390xx-utils
 
   - name: Add "{{ ansible_user }}" to bumblebee group
-    become: yes
     user:
       name: "{{ ansible_user }}"
       groups: bumblebee
       append: yes
 
+  - name: Enable bumblebee service
+    service:
+      name: bumblebeed
+      enabled: yes
+
   - name: Reboot
     become: yes
     reboot:
+
+  become: yes
