@@ -1,7 +1,7 @@
 - hosts: all
   roles: 
-    - base_system
-    - config
+    #    - base_system
+    #    - config
     - role: n53sv
       when: is_n53sv | default(false) | bool
 
