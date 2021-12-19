@@ -43,6 +43,8 @@
         - docker-compose
         - hplip
         - aria2
+        - youtube-dl
+        - flameshot
       state: latest
 
   - name: Allow the `ansible_user` user to run `sudo pacman` without a password
