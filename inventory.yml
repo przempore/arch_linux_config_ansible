@@ -4,6 +4,10 @@ arcos:
       gather_facts: no
       ansible_host: 192.168.178.23
       is_n53sv: true
+      xmonad: true
+    vm:
+      gather_facts: no
+      ansible_host: 192.168.100.193
 
   vars:
     ansible_user: "przemek"

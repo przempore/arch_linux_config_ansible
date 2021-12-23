@@ -1,13 +1,11 @@
 - block:
   # if fails run `sudo pacman -S archlinux-keyring`
   - name: upgrade system
-    become: yes
     pacman:
       update_cache: yes
       upgrade: yes
 
   - name: install packages
-    become: yes
     pacman:
       name:
         - ansible
@@ -48,7 +46,6 @@
       state: latest
 
   - name: Allow the `ansible_user` user to run `sudo pacman` without a password
-    become: yes
     ansible.builtin.lineinfile:
       path: /etc/sudoers.d/11-install-aur_builder
       line: '{{ ansible_user }} ALL=(ALL) NOPASSWD: /usr/bin/pacman'
@@ -62,7 +59,6 @@
       name: trizen
       use: makepkg
       state: present
-    become: yes
     become_user: "{{ ansible_user }}"
 
   - name: Install packages from AUR using paru
@@ -79,7 +75,6 @@
         - ripgrep-all
         - backblaze-b2
         - drive
-    become: yes
     become_user: "{{ ansible_user }}"
 
   # Note: Dependency resolution will still include repository packages.
@@ -94,17 +89,16 @@
       upgrade: yes
       use: paru
       aur_only: yes
-    become: yes
     become_user: "{{ ansible_user }}"
 
   - name: enable nordvpn user
-    become: yes
     shell: usermod -aG nordvpn $USER
 
   - name: enable + start nordvpn service
-    become: yes
     service:
       name: nordvpnd.service
       enabled: yes
       state: started
 
+
+  become: yes
