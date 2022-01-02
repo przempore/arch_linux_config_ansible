@@ -1,8 +1,15 @@
 arcos:
   hosts:
-    arco:
-      ansible_host: 127.0.0.1
+    n53sv:
       gather_facts: no
+      ansible_host: 192.168.178.23
+      is_n53sv: true
+      xmonad: true
+    vm:
+      gather_facts: no
+      ansible_host: 192.168.100.193
+
   vars:
+    ansible_user: "przemek"
     ansible_python_interpreter: "/usr/bin/python3"
 

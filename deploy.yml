@@ -1,0 +1,9 @@
+- hosts: all
+  roles: 
+    - base_system
+    - config
+    - role: xmonad
+      when: xmonad | default(false) | bool 
+    - role: n53sv
+      when: is_n53sv | default(false) | bool
+

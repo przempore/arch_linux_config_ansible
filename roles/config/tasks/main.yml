@@ -1,0 +1,88 @@
+- block:
+  - name: add github to ssh_known_hosts
+    become: yes
+    known_hosts:
+      path: /etc/ssh/ssh_known_hosts
+      name: github.com
+      key: github.com ssh-rsa AAAAB3NzaC1yc2EAAAABIwAAAQEAq2A7hRGmdnm9tUDbO9IDSwBK6TbQa+PXYPCPy6rbTrTtw7PHkccKrpp0yVhp5HdEIcKr6pLlVDBfOLX9QUsyCOV0wzfjIJNlGEYsdlLJizHhbn2mUjvSAHQqZETYP81eFzLQNnPHt4EVVUh7VfDESU84KezmD5QlWpXLmvU31/yMf+Se8xhHTvKSCZIFImWwoG6mbUoWf9nzpIoaSjB+weqqUUmpaaasXVal72J+UX2B+2RPW3RcT0eOzQgqlJL3RKrTJvdsjE3JEAvGq3lGHSZXy28G3skua2SmVi/w4yCE6gbODqnTWlg7+wC604ydGXA8VJiS5ap43JXiUFFAaQ==
+
+  - name: check if dotfiles cloned
+    git:
+      repo: 'https://github.com/przempore/.dotfiles.git'
+      dest: "/home/{{ ansible_user }}/.dotfiles"
+      clone: no
+      update: no
+    register: dotfiles_cloned
+
+  - name: show `dotfiles_cloned`
+    debug:
+      var: dotfiles_cloned
+
+  - name: download dotfiles
+    git:
+      repo: 'https://github.com/przempore/.dotfiles.git'
+      dest: "/home/{{ ansible_user }}/.dotfiles"
+    when: dotfiles_cloned['changed'] != false
+
+  - name: run stow on .dotfiles
+    shell: |
+      cd ~/.dotfiles
+      stow --adopt "{{ item }}"
+    with_items:
+      - nvim
+      - tmux
+      - fish
+      - alacritty
+      - redshift
+      - polybar
+
+  - name: revert changes at dotfiles
+    shell: |
+      cd .dotfiles
+      git checkout .
+
+  - name: set fish as default shell
+    become: yes
+    user: 
+      name: "{{ ansible_user }}"
+      shell: /usr/bin/fish
+
+  - name: install Plug for nvim
+    shell:  |
+      sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs \
+           https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'
+
+  - name: install plugins for nvim
+    shell: |
+      nvim --headless +PlugInstall +qa
+      nvim +CocCommand clangd.install +qa
+
+  - name: install coc.nvim
+    shell: |
+      set -o nounset    # error when referencing undefined variable
+      set -o errexit    # exit when command fails
+
+      # Use package feature to install coc.nvim
+
+      # for neovim
+      mkdir -p ~/.local/share/nvim/site/pack/coc/start
+      cd ~/.local/share/nvim/site/pack/coc/start
+      curl --fail -L https://github.com/neoclide/coc.nvim/archive/release.tar.gz | tar xzfv -
+
+      # Install extensions
+      mkdir -p ~/.config/coc/extensions
+      cd ~/.config/coc/extensions
+      if [ ! -f package.json ]
+      then
+        echo '{"dependencies":{}}'> package.json
+      fi
+      # Change extension names to the extensions you need
+      npm install coc-snippets --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+      npm install coc-tabnine --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+      npm install coc-python --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+      npm install coc-rust-analyzer --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+      npm install coc-clangd --global-style --ignore-scripts --no-bin-links --no-package-lock --only=prod
+
+  - name: Reboot
+    become: yes
+    reboot:
