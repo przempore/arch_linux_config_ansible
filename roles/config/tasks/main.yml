@@ -37,6 +37,7 @@
       - alacritty
       - redshift
       - polybar
+      - kitty
 
   - name: revert changes at dotfiles
     shell: |
