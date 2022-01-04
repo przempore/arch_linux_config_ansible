@@ -22,6 +22,8 @@
     git:
       repo: 'https://github.com/przempore/.dotfiles.git'
       dest: "/home/{{ ansible_user }}/.dotfiles"
+      recursive: yes
+      update: yes
     when: dotfiles_cloned['changed'] != false
 
   - name: run stow on .dotfiles
