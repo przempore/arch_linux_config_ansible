@@ -43,6 +43,7 @@
         - aria2
         - youtube-dl
         - flameshot
+        - kitty
       state: latest
 
   - name: Allow the `ansible_user` user to run `sudo pacman` without a password

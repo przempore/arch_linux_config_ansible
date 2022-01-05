@@ -31,6 +31,7 @@
       cd ~/.dotfiles
       stow --adopt "{{ item }}"
     with_items:
+      - screenlayout
       - nvim
       - tmux
       - fish
@@ -38,6 +39,7 @@
       - redshift
       - polybar
       - kitty
+      - ranger
 
   - name: revert changes at dotfiles
     shell: |
