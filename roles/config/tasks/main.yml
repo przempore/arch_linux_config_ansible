@@ -40,11 +40,17 @@
       - polybar
       - kitty
       - ranger
+      - mpv
 
   - name: revert changes at dotfiles
     shell: |
       cd .dotfiles
       git checkout .
+
+  - name: config `mpv` player
+    shell: |
+      cp /home/{{ ansible_user }}/.dotfiles/mpv/.config/mpv/mpv-youtube-quality/youtube-quality.lua /home/{{ ansible_user }}/.dotfiles/mpv/.config/mpv/scripts/
+      cp /home/{{ ansible_user }}/.dotfiles/mpv/.config/mpv/mpv-youtube-quality/youtube-quality.conf /home/{{ ansible_user }}/.dotfiles/mpv/.config/mpv/script-opts/
 
   - name: set fish as default shell
     become: yes

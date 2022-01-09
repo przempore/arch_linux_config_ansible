@@ -53,7 +53,6 @@
       create: yes
       validate: 'visudo -cf %s'
 
-
   # This task uses the `aur` module's FQCN.
   - name: Install trizen using makepkg if it isn't installed already
     kewlfft.aur.aur:
