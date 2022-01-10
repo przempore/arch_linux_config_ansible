@@ -1,0 +1,12 @@
+- block:
+  - name: run stow for bspwm on .dotfiles
+    shell: |
+      cd ~/.dotfiles
+      stow --adopt bspwm
+
+  - name: add 'screensetup.sh' to 'Xsetup'
+    become: yes
+    lineinfile:
+      path: /usr/share/sddm/scripts/Xsetup
+      state: present
+      line: "/home/{{ ansible_user }}/..screenlayout/screensetup.sh"
