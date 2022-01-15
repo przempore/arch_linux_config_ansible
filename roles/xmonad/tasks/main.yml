@@ -10,9 +10,9 @@
       xmonad --restart
       exit 0
 
-  - name: add 'screen_setup.sh' to 'Xsetup'
+  - name: add 'screensetup.sh' to 'Xsetup'
     become: yes
     lineinfile:
       path: /usr/share/sddm/scripts/Xsetup
       state: present
-      line: "/home/{{ ansible_user }}/.xmonad/scripts/screen_setup.sh"
+      line: "/home/{{ ansible_user }}/.screenlayout/screensetup.sh"
