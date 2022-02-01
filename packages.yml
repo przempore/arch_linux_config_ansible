@@ -46,6 +46,7 @@
           - hplip
           - aria2
           - youtube-dl
+          - yt-dlp
           - flameshot
         state: latest
 
