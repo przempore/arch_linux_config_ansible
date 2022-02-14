@@ -9,4 +9,4 @@
     lineinfile:
       path: /usr/share/sddm/scripts/Xsetup
       state: present
-      line: "/home/{{ ansible_user }}/..screenlayout/screensetup.sh"
+      line: "/home/{{ ansible_user }}/.screenlayout/screensetup.sh"
