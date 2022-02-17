@@ -46,6 +46,7 @@
           - hplip
           - aria2
           - youtube-dl
+          - yt-dlp
           - flameshot
         state: latest
 
@@ -71,6 +72,7 @@
       kewlfft.aur.aur:
         use: paru
         name:
+          - nerd-fonts-jetbrains-mono
           - onedriver
           - bluemail
           - whatsapp-for-linux
