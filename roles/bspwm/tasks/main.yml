@@ -4,6 +4,11 @@
       cd ~/.dotfiles
       stow --adopt bspwm
 
+  # TODO: extract polybar config to another role
+  - name: install pip dependencies for polybar
+    pip:
+      name: geocoder
+
   - name: add 'screensetup.sh' to 'Xsetup'
     become: yes
     lineinfile:
