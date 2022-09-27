@@ -44,6 +44,7 @@
         - youtube-dl
         - flameshot
         - kitty
+        - barrier
       state: latest
 
   - name: Allow the `ansible_user` user to run `sudo pacman` without a password
@@ -67,8 +68,8 @@
       name:
         - onedriver
         - bluemail
-        - whatsapp-for-linux
-          # - signal-desktop-beta
+        - whatsapp-nativefier
+        - signal-desktop-beta
         - netflix-git
         - nordvpn-bin
         - notion-app
