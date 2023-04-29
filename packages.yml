@@ -72,7 +72,7 @@
       kewlfft.aur.aur:
         use: paru
         name:
-          - nerd-fonts-jetbrains-mono
+          - ttf-jetbrains-mono-nerd
           - onedriver
           - bluemail
           - whatsapp-for-linux

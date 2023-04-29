@@ -61,21 +61,21 @@
       state: present
     become_user: "{{ ansible_user }}"
 
-  - name: Install packages from AUR using paru
-    kewlfft.aur.aur:
-      use: paru
-      name:
-        - onedriver
-        - bluemail
-        - whatsapp-for-linux
-          # - signal-desktop-beta
-        - netflix-git
-        - nordvpn-bin
-        - notion-app
-        - ripgrep-all
-        - backblaze-b2
-        - drive
-    become_user: "{{ ansible_user }}"
+  # - name: Install packages from AUR using paru
+  #   kewlfft.aur.aur:
+  #     use: paru
+  #     name:
+  #       # - onedriver
+  #       - bluemail
+  #       - whatsapp-for-linux
+  #         # - signal-desktop-beta
+  #       - netflix-git
+  #       # - nordvpn-bin
+  #       - notion-app
+  #       # - ripgrep-all
+  #       - backblaze-b2
+  #       # - drive
+  #   become_user: "{{ ansible_user }}"
 
   # Note: Dependency resolution will still include repository packages.
   - name: Upgrade the system using yay, only act on AUR packages.
@@ -91,14 +91,14 @@
       aur_only: yes
     become_user: "{{ ansible_user }}"
 
-  - name: enable nordvpn user
-    shell: usermod -aG nordvpn $USER
-
-  - name: enable + start nordvpn service
-    service:
-      name: nordvpnd.service
-      enabled: yes
-      state: started
+  # - name: enable nordvpn user
+  #   shell: usermod -aG nordvpn $USER
+  #
+  # - name: enable + start nordvpn service
+  #   service:
+  #     name: nordvpnd.service
+  #     enabled: yes
+  #     state: started
 
 
   become: yes
